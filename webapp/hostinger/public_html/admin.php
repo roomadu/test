@@ -697,6 +697,7 @@ $whatsappUrl = $whatsappConfigured ? WHATSAPP_SETUP_URL : ($base . '/whatsapp-se
             </div>
             <nav>
                 <a class="nav-item active" data-section="records">Visitor Records</a>
+                <a class="nav-item" data-section="formqr">Entrance QR</a>
                 <a class="nav-item" data-section="qr">WhatsApp QR</a>
             </nav>
             <div class="sidebar-footer">
@@ -821,6 +822,38 @@ $whatsappUrl = $whatsappConfigured ? WHATSAPP_SETUP_URL : ($base . '/whatsapp-se
                     </div>
 
                     <div id="groupView" class="hidden" style="padding:1rem 1.25rem"></div>
+                </div>
+            </div>
+
+            <!-- ENTRANCE / VISITOR FORM QR -->
+            <div class="section" id="sec-formqr">
+                <div class="page-header">
+                    <div>
+                        <h1>Entrance QR</h1>
+                        <p>Print this and place it at the office entrance</p>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    Visitors scan this to open the visitor form on their own phone, fill it in,
+                    and submit — no app or account needed.
+                </div>
+
+                <div class="panel">
+                    <div class="panel-body" style="max-width:420px;margin:0 auto;text-align:center">
+                        <h3 style="font-size:1rem;margin-bottom:0.5rem">Visitor Form QR</h3>
+                        <p style="font-size:0.875rem;color:#64748b;margin-bottom:1.25rem;line-height:1.5">
+                            Download or copy the link to print it yourself
+                        </p>
+                        <div class="qr-output" id="formQrCanvas"></div>
+                        <div class="link-row">
+                            <input type="text" class="link-input" id="formLinkDisplay" readonly
+                                value="<?= htmlspecialchars($formUrl) ?>">
+                            <button class="btn btn-outline" onclick="copyFormLink()">Copy Link</button>
+                        </div>
+                        <button class="btn btn-green" style="margin-top:1rem" onclick="downloadFormQr()">Download QR
+                            (PNG)</button>
+                    </div>
                 </div>
             </div>
 
@@ -1090,6 +1123,21 @@ $whatsappUrl = $whatsappConfigured ? WHATSAPP_SETUP_URL : ($base . '/whatsapp-se
         }
 
         renderQr('waQrCanvas', '<?= addslashes($whatsappUrl) ?>');
+        renderQr('formQrCanvas', '<?= addslashes($formUrl) ?>');
+
+        function downloadFormQr() {
+            const canvas = document.querySelector('#formQrCanvas canvas');
+            if (!canvas) return;
+            const a = document.createElement('a');
+            a.download = 'visitor-form-qr.png';
+            a.href = canvas.toDataURL('image/png');
+            a.click();
+        }
+
+        function copyFormLink() {
+            navigator.clipboard.writeText(document.getElementById('formLinkDisplay').value);
+            alert('Link copied');
+        }
     </script>
 </body>
 
