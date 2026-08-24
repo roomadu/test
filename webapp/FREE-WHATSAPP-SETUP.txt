@@ -1,0 +1,88 @@
+FREE, FULL WHATSAPP SETUP (no Twilio, no paid API, no restrictions)
+=====================================================================
+
+HOW IT WORKS
+------------
+Your Hostinger website (PHP) cannot run WhatsApp itself. So instead,
+one computer (this one, or any Windows PC that stays on) runs the
+real WhatsApp connection (server.js) and your Hostinger site sends
+requests to it over the internet whenever it needs to send a
+WhatsApp message. This uses YOUR real WhatsApp number, completely
+free, with no message limits or sandbox restrictions.
+
+You need 2 things always running on one PC:
+  1. The Node server        (server.js)      -> talks to WhatsApp
+  2. A free tunnel (ngrok)                   -> gives it a public URL
+
+────────────────────────────────────────────────────────────────────
+STEP 1 — Start the server so it never stops
+────────────────────────────────────────────────────────────────────
+Double-click:  start-forever.bat
+
+This runs the server and automatically restarts it if it ever
+crashes. Leave this window open (you can minimize it, don't close
+it).
+
+To make it start automatically when the PC restarts:
+  1. Press Win+R, type: shell:startup, press Enter.
+  2. Right-click start-forever.bat -> "Show more options" -> "Create
+     shortcut", then drag that shortcut into the folder that opened.
+  3. Also turn off Windows/PC sleep in Settings -> Power, so it
+     doesn't go to sleep and disconnect WhatsApp.
+
+────────────────────────────────────────────────────────────────────
+STEP 2 — Get a free permanent public address (ngrok)
+────────────────────────────────────────────────────────────────────
+1. Go to https://ngrok.com and sign up (free).
+2. Download and install ngrok for Windows:
+   https://ngrok.com/download
+3. Open Command Prompt and run (only once, ever):
+       ngrok config add-authtoken YOUR_TOKEN_HERE
+   (find "YOUR_TOKEN_HERE" on your ngrok dashboard after signing in)
+4. In the ngrok dashboard, go to "Domains" and click
+   "+ Create Domain" — the free plan includes ONE static domain,
+   for example:  crisp-owl-fine.ngrok-free.app
+   This address never changes, so you only configure it once.
+5. Open start-ngrok.bat in Notepad, replace
+   YOUR-DOMAIN.ngrok-free.app with the domain you just created,
+   save it.
+6. Double-click start-ngrok.bat to start the tunnel. Leave this
+   window open too (add a shortcut to the Startup folder the same
+   way as Step 1, so it also restarts automatically with the PC).
+
+────────────────────────────────────────────────────────────────────
+STEP 3 — Connect WhatsApp
+────────────────────────────────────────────────────────────────────
+1. With start-forever.bat running, open in a browser:
+       http://localhost:3000/whatsapp-qr
+2. On your phone: WhatsApp -> Settings -> Linked Devices ->
+   Link a Device -> scan the QR code shown.
+3. Once connected, that terminal window will say:
+   "WhatsApp is connected and ready to send messages!"
+
+────────────────────────────────────────────────────────────────────
+STEP 4 — Tell your Hostinger website where to find it
+────────────────────────────────────────────────────────────────────
+Open includes/config.php on Hostinger (File Manager) and set:
+
+    define('WHATSAPP_SETUP_URL', 'https://YOUR-DOMAIN.ngrok-free.app/whatsapp-qr');
+    define('WHATSAPP_BRIDGE_URL', 'https://YOUR-DOMAIN.ngrok-free.app/api/send-whatsapp');
+
+(use the exact same domain you created in Step 2)
+
+Save, then reload your Admin -> WhatsApp QR page — it will now show
+a real, working QR code, and every new visitor form submission will
+also send a WhatsApp message to the employee automatically.
+
+────────────────────────────────────────────────────────────────────
+IMPORTANT NOTES
+────────────────────────────────────────────────────────────────────
+- The PC running start-forever.bat + start-ngrok.bat must stay ON
+  and connected to the internet 24/7 for WhatsApp to keep working.
+  If you turn it off, WhatsApp messages stop (email still works).
+- If you ever see "WhatsApp disconnected" — just reopen
+  http://localhost:3000/whatsapp-qr and re-scan.
+- This uses your personal/office WhatsApp number. Do not scan the
+  QR with more than one phone.
+- ngrok's free plan is genuinely free forever for one static domain
+  — no credit card needed, no time limit.

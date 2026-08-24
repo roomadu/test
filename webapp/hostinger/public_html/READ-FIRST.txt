@@ -1,0 +1,78 @@
+VISITOR SYSTEM — HOSTINGER UPLOAD PACKAGE
+==========================================
+
+WHAT WAS FIXED IN THIS VERSION
+-------------------------------
+1. Admin dashboard "Failed to load" bug — a wrong file path in
+   api/visits.php was crashing the visitor-records API. Fixed.
+2. Admin login was never actually implemented (the page skipped
+   straight to the dashboard, so the records API always replied
+   "Unauthorized"). A real login screen has been added.
+3. WhatsApp QR page showed a broken placeholder link
+   (https://your-node-server.com/...). It now shows a working link
+   to your own site until a real WhatsApp bridge server is deployed.
+4. If the database isn't reachable, the dashboard now shows a clear
+   message explaining exactly what to fix, instead of a blank
+   "Failed to load."
+
+HOW TO UPLOAD (Hostinger)
+--------------------------
+1. Log in to hPanel → File Manager (or use FTP).
+2. Open your domain's `public_html` folder.
+3. Delete the old files inside it (or back them up first).
+4. Upload everything from THIS zip's contents directly into
+   `public_html` (the files/folders should sit directly inside
+   public_html — do not create an extra sub-folder).
+
+LOGIN DETAILS (already set in includes/config.php)
+----------------------------------------------------
+Admin URL:      https://YOURDOMAIN/admin.php
+Username:       admin
+Password:       admin@123
+
+Please change ADMIN_PASS in includes/config.php to something private
+once you've confirmed everything works.
+
+DATABASE
+--------
+The database connection details are already filled in
+includes/config.php using the database you created in hPanel:
+  DB_NAME: u582136839_visit_user
+  DB_USER: u582136839_adminvisit
+
+If you ever see a red "Setup needed" banner on the dashboard, it
+means those values don't match what's in hPanel → Databases anymore
+— just re-check/re-enter them there.
+
+VISITOR FORM
+------------
+Give this link (or a QR code of it) to visitors at the entrance:
+  https://YOURDOMAIN/
+
+When someone submits the form:
+ - A record appears instantly in Admin → Visitor Records.
+ - An email is sent to the employee they're meeting (using the Gmail
+   account configured in config.php).
+ - The employee can Approve/Decline right from that email.
+
+WHATSAPP (free option, needs one always-on PC)
+-------------------------------------------------
+Hostinger shared hosting cannot run WhatsApp Web itself (it needs
+Node.js + Chrome running 24/7). Email notifications work immediately
+with no extra setup. For FREE, unrestricted WhatsApp notifications
+using your real WhatsApp number:
+
+ 1. On a Windows PC that can stay on 24/7, unzip the
+    VisitorSystem-Local-Node package and follow the steps in
+    FREE-WHATSAPP-SETUP.txt (uses free ngrok static domain — no
+    cost, no VPS, no Twilio needed).
+ 2. Once you have your ngrok domain, open includes/config.php here
+    and set:
+        WHATSAPP_SETUP_URL   = https://your-domain.ngrok-free.app/whatsapp-qr
+        WHATSAPP_BRIDGE_URL  = https://your-domain.ngrok-free.app/api/send-whatsapp
+ 3. Reload Admin → WhatsApp QR — it will now show the real QR to
+    scan and link an employee's WhatsApp.
+
+Until step 3 is done, the WhatsApp QR tab will show a friendly
+notice instead of a broken link, and visitor alerts will still be
+delivered by email.

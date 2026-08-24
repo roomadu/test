@@ -1,0 +1,17 @@
+﻿node_modules/
+**/node_modules/
+
+.wwebjs_auth/
+**/.wwebjs_auth/
+
+.wwebjs_cache/
+**/.wwebjs_cache/
+
+.env
+**/.env
+
+*.zip
+
+# Live PHP secrets (real DB/email/admin passwords) - never commit this.
+# Only includes/config.example.php should be tracked.
+webapp/hostinger/public_html/includes/config.php
