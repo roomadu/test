@@ -41,9 +41,9 @@
         }
 
         .form-card {
-            background: rgba(255, 255, 255, 0.55);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             border-radius: 4px;
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35), 0 1px 4px rgba(0, 0, 0, 0.18);
             overflow: hidden;
@@ -60,9 +60,7 @@
         /* ── Header section – distinct teal-tinted background ── */
         .form-header {
             padding: 2rem 2.5rem 1.75rem;
-            background: linear-gradient(135deg, rgba(15, 61, 62, 0.55) 0%, rgba(13, 75, 110, 0.55) 100%);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            background: linear-gradient(135deg, #0f3d3e 0%, #0d4b6e 100%);
             border-bottom: 3px solid #0d9488;
         }
 
@@ -93,13 +91,13 @@
             padding: 0.75rem 2.5rem 0;
             font-size: 0.875rem;
             color: #bc2f32;
-            background: rgba(250, 250, 250, 0.45);
+            background: transparent;
         }
 
         .question {
             padding: 1.75rem 2.5rem;
             border-top: 1px solid rgba(232, 232, 232, 0.6);
-            background: rgba(255, 255, 255, 0.45);
+            background: transparent;
         }
 
         .question-label {
